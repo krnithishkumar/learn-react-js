@@ -1,23 +1,31 @@
 function addMinutes(date, minutes) {
-  //we multiply minutes by 60000 is to convert minutes to milliseconds
   return new Date(date.getTime() + minutes * 60000);
 }
 
 function Clock() {
-  let [time, setTime] = React.useState(new Date());
+  const [time, setTime] = React.useState(new Date());
 
-  const handleClick = () => {
-    //doesn't update the DOM
-    // time = addMinutes(time, 10);
-    // console.log(time);
-    //updates the DOM
+  const handleClick1 = () => {
     setTime(addMinutes(time, 10));
+    setTime(addMinutes(time, 10));
+  };
+
+  const handleClick2 = () => {
+    setTime((previousTime) => {
+      console.log(previousTime, "handleClick2 - setTime 1");
+      return addMinutes(previousTime, 10);
+    });
+    setTime((previousTime) => {
+      console.log(previousTime, "handleClick2 - setTime 2");
+      return addMinutes(previousTime, 10);
+    });
   };
 
   return (
     <div>
       <p>{time.toLocaleTimeString()}</p>
-      <button onClick={handleClick}>+ 10 Minutes</button>
+      <button onClick={handleClick1}>+ 10 Minutes</button>
+      <button onClick={handleClick2}>+ 10 Minutes</button>
     </div>
   );
 }
